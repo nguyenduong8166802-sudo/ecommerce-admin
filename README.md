@@ -1,3 +1,5 @@
+FIXED V3.1
+
 # DUONG MART PRO V3 - Affiliate nhiều tầng + Ví seller + Rút tiền
 
 ## Tính năng mới V3
@@ -28,3 +30,6 @@
 
 
 V4 ready-deploy package generated on 2026-04-05.
+
+
+Note: V3.1 keeps automatic DB init in server.js. Use Clear build cache & deploy after upload.
