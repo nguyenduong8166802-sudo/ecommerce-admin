@@ -198,9 +198,18 @@ async function initDb() {
   `);
 
   await pool.query(`
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS commission_rate NUMERIC(5,2) NOT NULL DEFAULT 10.00;
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS referral_rate NUMERIC(5,2) NOT NULL DEFAULT 5.00;
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS referral_code VARCHAR(80);
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS wallet_balance NUMERIC(12,2) NOT NULL DEFAULT 0;
     ALTER TABLE users ADD COLUMN IF NOT EXISTS parent_seller_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
+
+    ALTER TABLE orders ADD COLUMN IF NOT EXISTS ref_seller_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
     ALTER TABLE orders ADD COLUMN IF NOT EXISTS level2_seller_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
+    ALTER TABLE orders ADD COLUMN IF NOT EXISTS ref_code VARCHAR(80);
+    ALTER TABLE orders ADD COLUMN IF NOT EXISTS referral_rate NUMERIC(5,2) NOT NULL DEFAULT 0;
     ALTER TABLE orders ADD COLUMN IF NOT EXISTS level2_rate NUMERIC(5,2) NOT NULL DEFAULT 0;
+    ALTER TABLE orders ADD COLUMN IF NOT EXISTS referral_commission_amount NUMERIC(12,2) NOT NULL DEFAULT 0;
     ALTER TABLE orders ADD COLUMN IF NOT EXISTS level2_commission_amount NUMERIC(12,2) NOT NULL DEFAULT 0;
   `);
 
@@ -212,6 +221,8 @@ async function initDb() {
   }
 
   await seedUsers();
+  await pool.query(`UPDATE users SET referral_rate = COALESCE(referral_rate, 0), commission_rate = COALESCE(commission_rate, 0)`);
+  await pool.query(`UPDATE users SET referral_code = COALESCE(referral_code, LOWER(REPLACE(SPLIT_PART(email,'@',1),'.','-'))) WHERE role='seller' AND (referral_code IS NULL OR referral_code='')`);
   await seedProducts();
 }
 
