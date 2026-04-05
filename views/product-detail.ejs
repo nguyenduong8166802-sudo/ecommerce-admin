@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+<section class="section">
+  <div class="container product-detail">
+    <img class="detail-image" src="<%= product.imageUrl %>" alt="<%= product.name %>" />
+    <div>
+      <small><%= product.categoryName %> · <%= product.sellerName %></small>
+      <h1><%= product.name %></h1>
+      <p><%= product.shortDesc %></p>
+      <div class="price-row big">
+        <strong><%= currency(product.finalPrice) %></strong>
+        <% if (product.salePrice) { %><span><%= currency(product.price) %></span><% } %>
+      </div>
+      <p>Tồn kho: <%= product.stock %></p>
+      <form action="/cart/add" method="post" class="add-form">
+        <input type="hidden" name="productId" value="<%= product.id %>" />
+        <input type="number" name="qty" min="1" value="1" />
+        <button class="btn">Thêm vào giỏ</button>
+      </form>
+      <div class="content-box"><%= product.description %></div>
+    </div>
+  </div>
+</section>
+<section class="section gray">
+  <div class="container">
+    <h2>Sản phẩm liên quan</h2>
+    <div class="product-grid">
+      <% related.forEach(product => { %>
+        <div class="product-card">
+          <img src="<%= product.imageUrl %>" alt="<%= product.name %>" />
+          <div class="product-body">
+            <h3><a href="/product/<%= product.slug %>"><%= product.name %></a></h3>
+            <div class="price-row"><strong><%= currency(product.finalPrice) %></strong></div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

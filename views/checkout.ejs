@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+<section class="section">
+  <div class="container checkout-grid">
+    <div>
+      <h1>Thanh toán</h1>
+      <% if (error) { %><div class="alert"><%= error %></div><% } %>
+      <form method="post" action="/checkout" class="form-card">
+        <label>Họ tên<input type="text" name="fullName" /></label>
+        <label>Số điện thoại<input type="text" name="phone" /></label>
+        <label>Địa chỉ giao hàng<textarea name="address"></textarea></label>
+        <button class="btn">Xác nhận đơn hàng</button>
+      </form>
+    </div>
+    <div class="summary-box">
+      <h3>Đơn hàng của bạn</h3>
+      <% items.forEach(item => { %>
+        <div class="mini-row"><span><%= item.name %> x <%= item.qty %></span><strong><%= currency(item.lineTotal) %></strong></div>
+      <% }) %>
+      <hr />
+      <div class="mini-row"><span>Tổng</span><strong><%= currency(total) %></strong></div>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

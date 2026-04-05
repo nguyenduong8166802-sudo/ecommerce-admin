@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= site.siteName %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="container flex between center">
+    <a class="logo" href="/"><%= site.siteName %></a>
+    <nav class="nav">
+      <a href="/shop">Sản phẩm</a>
+      <a href="/policy/commission">Hoa hồng seller</a>
+      <a href="/cart">Giỏ hàng (<%= cartCount %>)</a>
+      <% if (!currentUser) { %>
+        <a href="/login">Đăng nhập</a>
+      <% } else if (currentUser.role === 'admin') { %>
+        <a href="/admin">Admin</a>
+        <form action="/logout" method="post" class="inline"><button class="link-btn">Đăng xuất</button></form>
+      <% } else { %>
+        <a href="/seller">Seller</a>
+        <form action="/logout" method="post" class="inline"><button class="link-btn">Đăng xuất</button></form>
+      <% } %>
+    </nav>
+  </div>
+</header>
+<div class="announcement"><div class="container"><%= site.primaryBanner %></div></div>

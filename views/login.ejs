@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+<section class="section">
+  <div class="container narrow">
+    <form method="post" action="/login" class="form-card">
+      <h1>Đăng nhập</h1>
+      <% if (error) { %><div class="alert"><%= error %></div><% } %>
+      <label>Email<input type="email" name="email" required /></label>
+      <label>Mật khẩu<input type="password" name="password" required /></label>
+      <button class="btn">Đăng nhập</button>
+      <div class="login-note">
+        <p><strong>Admin:</strong> admin@duongmart.vn / admin123</p>
+        <p><strong>Seller:</strong> seller1@duongmart.vn / seller123</p>
+      </div>
+    </form>
+  </div>
+</section>
+<%- include('partials/footer') %>

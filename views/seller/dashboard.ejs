@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+<section class="section">
+  <div class="container">
+    <div class="dash-head between center">
+      <h1>Seller Dashboard</h1>
+      <div class="tabs"><a href="/seller/products">Sản phẩm của tôi</a></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><span>Sản phẩm</span><strong><%= sellerProducts.length %></strong></div>
+      <div class="stat-card"><span>Gross sales</span><strong><%= currency(gross) %></strong></div>
+      <div class="stat-card"><span>Hoa hồng sàn</span><strong><%= currency(commission) %></strong></div>
+      <div class="stat-card"><span>Thực nhận</span><strong><%= currency(receivable) %></strong></div>
+    </div>
+    <h2 class="top-gap">Đơn hàng của seller</h2>
+    <table class="table">
+      <tr><th>Mã đơn</th><th>Sản phẩm</th><th>SL</th><th>Doanh thu</th><th>Hoa hồng</th><th>Thực nhận</th><th>Trạng thái</th></tr>
+      <% sellerItems.forEach(item => { %>
+        <tr>
+          <td><%= item.orderCode %></td>
+          <td><%= item.productName %></td>
+          <td><%= item.qty %></td>
+          <td><%= currency(item.lineTotal) %></td>
+          <td><%= currency(item.commissionAmount) %></td>
+          <td><%= currency(item.sellerReceivable) %></td>
+          <td><%= item.orderStatus %></td>
+        </tr>
+      <% }) %>
+    </table>
+  </div>
+</section>
+<%- include('../partials/footer') %>

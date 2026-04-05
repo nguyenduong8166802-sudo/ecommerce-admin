@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+<section class="section">
+  <div class="container">
+    <div class="section-head between center">
+      <h1>Shop sản phẩm</h1>
+    </div>
+    <form class="filter-bar" method="get" action="/shop">
+      <input type="text" name="q" placeholder="Tìm sản phẩm..." value="<%= q %>" />
+      <select name="category">
+        <option value="">Tất cả danh mục</option>
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat.id %>" <%= category === cat.id ? 'selected' : '' %>><%= cat.name %></option>
+        <% }) %>
+      </select>
+      <button class="btn">Lọc</button>
+    </form>
+
+    <div class="product-grid top-gap">
+      <% products.forEach(product => { %>
+        <div class="product-card">
+          <img src="<%= product.imageUrl %>" alt="<%= product.name %>" />
+          <div class="product-body">
+            <small><%= product.categoryName %> · <%= product.sellerName %></small>
+            <h3><a href="/product/<%= product.slug %>"><%= product.name %></a></h3>
+            <p><%= product.shortDesc %></p>
+            <div class="price-row">
+              <strong><%= currency(product.finalPrice) %></strong>
+              <% if (product.salePrice) { %><span><%= currency(product.price) %></span><% } %>
+            </div>
+            <form action="/cart/add" method="post">
+              <input type="hidden" name="productId" value="<%= product.id %>" />
+              <button class="btn btn-block">Thêm vào giỏ</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>
