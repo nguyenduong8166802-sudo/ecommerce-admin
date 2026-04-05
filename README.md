@@ -1,21 +1,23 @@
 
-# DUONG MART PRO - Admin + Seller quản lý sản phẩm full
+# DUONG MART PRO V1.1 FULL CRUD + REGISTER
 
-## Chức năng
-- Admin quản lý toàn bộ sản phẩm
-- Seller quản lý sản phẩm của mình
-- Admin có thể thêm/sửa/xóa sản phẩm thay seller
-- Admin có thể gán seller sở hữu sản phẩm
-- Auto init PostgreSQL khi chạy
-
-## Tài khoản mẫu
-- Admin: admin@duongmart.vn / admin123
-- Seller: seller1@duongmart.vn / seller123
-- Buyer: buyer1@duongmart.vn / buyer123
+## Tính năng
+- Đăng ký tài khoản buyer hoặc seller tại `/register`
+- Đăng nhập `/login`
+- Admin CRUD toàn bộ sản phẩm tại `/admin/products`
+- Seller CRUD sản phẩm của chính mình tại `/seller/products`
+- Admin có thể gán seller cho sản phẩm
+- PostgreSQL auto-init khi app khởi động
+- Giao diện cơ bản, sạch, dùng được ngay
 
 ## Biến môi trường
-- DATABASE_URL
-- SESSION_SECRET
+- `DATABASE_URL`
+- `SESSION_SECRET`
+- `PUBLIC_BASE_URL` (không bắt buộc)
+
+## Tài khoản admin mặc định
+- Email: `admin@duongmart.vn`
+- Mật khẩu: `admin123`
 
 ## Chạy local
 ```bash
@@ -23,8 +25,13 @@ npm install
 npm start
 ```
 
-## Route chính
-- /
-- /login
-- /seller/products
-- /admin/products
+## Render
+Build Command:
+```bash
+npm install
+```
+
+Start Command:
+```bash
+npm start
+```

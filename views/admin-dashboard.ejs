@@ -1,17 +1,15 @@
+
 <%- include('partials/header') %>
-<section class="section">
-  <h1>Admin Dashboard V3</h1>
-  <div class="stats-grid">
-    <div class="stat-card"><span>Sản phẩm</span><strong><%= stats.products %></strong></div>
-    <div class="stat-card"><span>Seller</span><strong><%= stats.sellers %></strong></div>
-    <div class="stat-card"><span>Đơn hàng</span><strong><%= stats.orders %></strong></div>
-    <div class="stat-card"><span>Doanh thu</span><strong><%= currency(stats.sales) %></strong></div>
-    <div class="stat-card"><span>Rút tiền chờ duyệt</span><strong><%= stats.pendingWithdrawals %></strong></div>
-  </div>
-  <div class="split top-gap">
-    <a class="card nav-card" href="/admin/sellers"><h3>Seller / Parent</h3><p>Chỉnh phí sàn, F1 và gán parent seller.</p></a>
-    <a class="card nav-card" href="/admin/affiliate"><h3>Cài đặt Affiliate</h3><p>F1, F2, phí sàn và rút tối thiểu.</p></a>
-    <a class="card nav-card" href="/admin/withdrawals"><h3>Rút tiền</h3><p>Duyệt hoặc từ chối yêu cầu rút tiền.</p></a>
+<section class="panel-header">
+  <h1>Admin Dashboard</h1>
+  <div class="cta-row">
+    <a class="btn primary" href="/admin/products">Quản lý sản phẩm</a>
+    <a class="btn" href="/admin/products/new">Thêm sản phẩm</a>
   </div>
 </section>
+<div class="stats">
+  <div class="stat-card"><strong><%= stats.users %></strong><span>Tài khoản</span></div>
+  <div class="stat-card"><strong><%= stats.sellers %></strong><span>Seller</span></div>
+  <div class="stat-card"><strong><%= stats.products %></strong><span>Sản phẩm</span></div>
+</div>
 <%- include('partials/footer') %>
