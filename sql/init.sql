@@ -1,2 +1,0 @@
--- Auto-init handled by server.js in V3.
--- Deploy and app will create/alter tables automatically.
