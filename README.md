@@ -1,56 +1,30 @@
-# Marketplace PRO V1 (PostgreSQL)
+# DUONG MART PRO V3 - Affiliate nhiều tầng + Ví seller + Rút tiền
 
-Bản này dùng PostgreSQL thật, có:
-- đăng ký / đăng nhập buyer, seller, admin
-- admin chỉnh % hoa hồng theo seller
-- seller thêm / sửa / xóa sản phẩm
-- marketing message đầu trang
-- flash sale
-- giỏ hàng + tạo đơn hàng
-- dữ liệu lưu trong PostgreSQL
+## Tính năng mới V3
+- Affiliate nhiều tầng: F1 + F2
+- Ví seller (`wallet_transactions`)
+- Yêu cầu rút tiền (`withdrawal_requests`)
+- Admin duyệt / từ chối rút tiền
+- Gán parent seller trong `/admin/sellers`
+- Cài đặt F1, F2, phí sàn và mức rút tối thiểu tại `/admin/affiliate`
 
-## 1) Cài local
-```bash
-npm install
-cp .env.example .env
-npm start
-```
-
-Mở:
-```bash
-http://localhost:10000
-```
-
-## 2) Deploy Render
-- Build Command: `npm install`
-- Start Command: `npm start`
-
-Environment Variables:
-- `DATABASE_URL`
-- `SESSION_SECRET`
-- `PORT=10000`
-
-## 3) Tài khoản mặc định
-Khi app chạy lần đầu, nó sẽ tự tạo:
+## Tài khoản test
 - Admin: `admin@duongmart.vn` / `admin123`
-- Seller: `seller1@duongmart.vn` / `seller123`
+- Seller 1: `seller1@duongmart.vn` / `seller123`
+- Seller 2: `seller2@duongmart.vn` / `seller123` (mặc định thuộc team của Seller 1)
 - Buyer: `buyer1@duongmart.vn` / `buyer123`
 
-## 4) Các trang chính
-- `/` trang chủ
-- `/products` danh sách sản phẩm
-- `/login`
-- `/register`
-- `/cart`
-- `/checkout`
-- `/admin`
-- `/admin/sellers`
-- `/admin/marketing`
-- `/admin/flash-sales`
-- `/seller`
-- `/seller/products/new`
+## ENV
+- `DATABASE_URL`
+- `SESSION_SECRET`
+- `PUBLIC_BASE_URL` = URL website của bạn
 
-## 5) Lưu ý
-- Bản này dùng `image_url` để nhập link ảnh trực tiếp.
-- Flash sale sẽ áp dụng lên sản phẩm được chọn.
-- Session đang lưu trong PostgreSQL, phù hợp hơn MemoryStore.
+## Test nhanh
+1. Login Seller 1 -> copy link ref.
+2. Mở tab ẩn danh với link `/?ref=seller1` -> đăng ký Seller 2 hoặc buyer.
+3. Tạo đơn hàng.
+4. Quay lại Seller Dashboard xem ví, F1/F2 và yêu cầu rút tiền.
+5. Admin vào `/admin/withdrawals` để duyệt.
+
+
+V4 ready-deploy package generated on 2026-04-05.

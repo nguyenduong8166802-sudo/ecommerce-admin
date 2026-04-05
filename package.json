@@ -1,6 +1,6 @@
 {
-  "name": "marketplace-v1-postgres",
-  "version": "1.0.0",
+  "name": "marketplace-v4-ready-deploy",
+  "version": "4.0.0",
   "description": "Marketplace PRO V1 with PostgreSQL, roles, commission, marketing, flash sale",
   "main": "server.js",
   "scripts": {

@@ -1,1 +1,14 @@
-<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title><%= title || 'DUONG MART PRO' %></title><link rel="stylesheet" href="/css/style.css" /></head><body><header class="topbar"><div class="container topbar-inner"><a href="/" class="brand">DUONG MART PRO</a><nav class="nav"><a href="/products">Sản phẩm</a><% if (currentUser && currentUser.role === 'admin') { %><a href="/admin">Admin</a><% } %><% if (currentUser && currentUser.role === 'seller') { %><a href="/seller">Seller</a><% } %><% if (currentUser) { %><a href="/orders/mine">Đơn của tôi</a><% } %><a href="/cart">Giỏ hàng (<%= cartCount %>)</a><% if (currentUser) { %><form class="inline-form" action="/logout" method="POST" style="display:inline"><button class="btn secondary" type="submit">Đăng xuất</button></form><% } else { %><a href="/login">Đăng nhập</a><a href="/register">Đăng ký</a><% } %></nav></div></header>
+<header class="site-header">
+  <div class="topbar"><%= (typeof marketing !== 'undefined' && marketing && marketing.top_banner_text) ? marketing.top_banner_text : 'Marketplace PRO V3' %></div>
+  <div class="nav">
+    <a href="/" class="brand">DUONG MART PRO V3</a>
+    <nav>
+      <a href="/products">Sản phẩm</a>
+      <% if (currentUser && currentUser.role === 'admin') { %><a href="/admin">Admin</a><a href="/admin/affiliate">Affiliate</a><a href="/admin/withdrawals">Rút tiền</a><% } %>
+      <% if (currentUser && currentUser.role === 'seller') { %><a href="/seller">Seller</a><a href="/seller/orders">Đơn seller</a><% } %>
+      <% if (currentUser) { %><a href="/my-orders">Đơn của tôi</a><% } %>
+      <a href="/cart">Giỏ hàng (<%= cartCount %>)</a>
+      <% if (!currentUser) { %><a href="/login">Đăng nhập</a><a href="/register">Đăng ký</a><% } else { %><form action="/logout" method="POST" style="display:inline"><button class="link-btn">Đăng xuất</button></form><% } %>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+<section class="section">
+  <h1>Duyệt yêu cầu rút tiền</h1>
+  <table class="table">
+    <tr><th>Seller</th><th>Số tiền</th><th>Ngân hàng</th><th>Trạng thái</th><th>Ngày</th><th></th></tr>
+    <% requests.forEach(r => { %>
+      <tr>
+        <td><strong><%= r.name %></strong><br><span class="muted"><%= r.email %></span></td>
+        <td><%= currency(r.amount) %></td>
+        <td><%= r.bank_name || '' %><br><%= r.bank_account_name || '' %> - <%= r.bank_account_number || '' %></td>
+        <td><%= r.status %></td>
+        <td><%= new Date(r.created_at).toLocaleString('vi-VN') %></td>
+        <td>
+          <% if (r.status === 'pending') { %>
+            <form action="/admin/withdrawals/<%= r.id %>/approve" method="POST" style="display:inline"><button class="btn primary">Duyệt</button></form>
+            <form action="/admin/withdrawals/<%= r.id %>/reject" method="POST" style="display:inline"><button class="btn">Từ chối</button></form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</section>
+<%- include('partials/footer') %>

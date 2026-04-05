@@ -1,1 +1,84 @@
-<%- include('partials/header', { title: 'Seller Dashboard' }) %><div class="container section"><div class="flex-between"><h1 class="page-title">Seller Dashboard</h1><div class="stack"><a class="btn" href="/seller/products/new">+ Thêm sản phẩm</a><a class="btn secondary" href="/seller/orders">Đơn của seller</a></div></div><div class="kpi"><div class="card"><div class="small">Sản phẩm</div><strong><%= stats.products %></strong></div><div class="card"><div class="small">Đơn liên quan</div><strong><%= stats.orders %></strong></div><div class="card"><div class="small">Doanh số gộp</div><strong><%= currency(stats.gross) %></strong></div><div class="card"><div class="small">Hoa hồng sàn thu</div><strong><%= currency(stats.commission) %></strong></div></div><div class="card mt-24"><h3>Sản phẩm của tôi</h3><table class="table"><thead><tr><th>Sản phẩm</th><th>Giá</th><th>Tồn kho</th><th>Hiển thị</th><th></th></tr></thead><tbody><% products.forEach(p => { %><tr><td><strong><%= p.name %></strong></td><td><%= currency(p.price) %></td><td><%= p.stock %></td><td><%= p.is_active ? 'Bật' : 'Tắt' %></td><td><div class="stack"><a class="btn secondary" href="/seller/products/<%= p.id %>/edit">Sửa</a><form method="POST" action="/seller/products/<%= p.id %>?_method=DELETE"><button class="btn danger" type="submit">Xóa</button></form></div></td></tr><% }) %></tbody></table></div></div><%- include('partials/footer') %>
+<%- include('partials/header') %>
+<section class="section">
+  <div class="section-head"><h1>Seller Dashboard V3</h1><a class="btn primary" href="/seller/products/new">+ Thêm sản phẩm</a></div>
+  <div class="stats-grid">
+    <div class="stat-card"><span>Sản phẩm</span><strong><%= stats.products %></strong></div>
+    <div class="stat-card"><span>Đơn bán</span><strong><%= stats.orders %></strong></div>
+    <div class="stat-card"><span>Doanh thu ref F1</span><strong><%= currency(stats.referralRevenue) %></strong></div>
+    <div class="stat-card"><span>Ví hiện tại</span><strong><%= currency(walletBalance) %></strong></div>
+  </div>
+
+  <div class="split top-gap">
+    <div class="card">
+      <h3>Link affiliate của bạn</h3>
+      <input class="full-input" value="<%= referralLink %>" readonly>
+      <p class="muted">Mã ref: <strong><%= seller.referral_code %></strong></p>
+      <% if (seller.parent_name) { %><p class="muted">Bạn thuộc team của: <strong><%= seller.parent_name %></strong> (<%= seller.parent_referral_code %>)</p><% } %>
+      <ul class="benefit-list">
+        <li>F1: <%= Number(seller.referral_rate).toFixed(2) %>%</li>
+        <li>F2 toàn hệ thống: <%= Number(settings.level2_rate).toFixed(2) %>%</li>
+        <li>Phí sàn sản phẩm của bạn: <%= Number(seller.commission_rate).toFixed(2) %>%</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Yêu cầu rút tiền</h3>
+      <p class="muted">Rút tối thiểu: <%= currency(settings.min_withdraw_amount) %></p>
+      <form action="/seller/withdrawals" method="POST" class="stack-form">
+        <input name="amount" type="number" min="1" step="1000" placeholder="Số tiền muốn rút">
+        <input name="bank_name" placeholder="Ngân hàng">
+        <input name="bank_account_name" placeholder="Chủ tài khoản">
+        <input name="bank_account_number" placeholder="Số tài khoản">
+        <textarea name="note" placeholder="Ghi chú"></textarea>
+        <button class="btn primary">Gửi yêu cầu rút</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="split top-gap">
+    <div class="card">
+      <h3>Thống kê affiliate</h3>
+      <ul class="benefit-list">
+        <li>Đơn F1: <strong><%= stats.referralOrders %></strong></li>
+        <li>Hoa hồng F1: <strong><%= currency(stats.referralCommission) %></strong></li>
+        <li>Hoa hồng F2: <strong><%= currency(stats.level2Commission) %></strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Team dưới bạn</h3>
+      <% if (!team.length) { %><p class="muted">Chưa có seller tuyến dưới.</p><% } else { %>
+        <table class="table"><tr><th>Tên</th><th>Email</th><th>Mã ref</th></tr>
+        <% team.forEach(m => { %><tr><td><%= m.name %></td><td><%= m.email %></td><td><%= m.referral_code %></td></tr><% }) %>
+        </table>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="split top-gap">
+    <div class="card">
+      <h3>Giao dịch ví gần đây</h3>
+      <table class="table"><tr><th>Loại</th><th>Mô tả</th><th>Số tiền</th><th>Ngày</th></tr>
+      <% walletTransactions.forEach(t => { %><tr><td><%= t.type %></td><td><%= t.description %></td><td><%= currency(t.amount) %></td><td><%= new Date(t.created_at).toLocaleString('vi-VN') %></td></tr><% }) %></table>
+    </div>
+    <div class="card">
+      <h3>Lịch sử rút tiền</h3>
+      <table class="table"><tr><th>Số tiền</th><th>Trạng thái</th><th>Ngày</th></tr>
+      <% withdrawals.forEach(w => { %><tr><td><%= currency(w.amount) %></td><td><%= w.status %></td><td><%= new Date(w.created_at).toLocaleString('vi-VN') %></td></tr><% }) %></table>
+    </div>
+  </div>
+
+  <div class="card top-gap">
+    <h3>Đơn hàng qua link ref</h3>
+    <table class="table">
+      <tr><th>Mã đơn</th><th>Khách</th><th>Tổng tiền</th><th>F1</th><th>F2</th><th>Trạng thái</th></tr>
+      <% referralOrders.forEach(o => { %><tr><td>#<%= o.id %></td><td><%= o.full_name %></td><td><%= currency(o.total_amount) %></td><td><%= currency(o.referral_commission_amount) %></td><td><%= currency(o.level2_commission_amount) %></td><td><%= o.status %></td></tr><% }) %>
+    </table>
+  </div>
+
+  <div class="card top-gap">
+    <h3>Sản phẩm của bạn</h3>
+    <table class="table"><tr><th>Ảnh</th><th>Tên</th><th>Giá</th><th>Kho</th><th>Ẩn/hiện</th><th></th></tr>
+      <% products.forEach(p => { %><tr><td><img src="<%= p.image_url %>" class="thumb"></td><td><%= p.name %></td><td><%= currency(p.price) %></td><td><%= p.stock %></td><td><%= p.is_active ? 'Hiện' : 'Ẩn' %></td><td><a href="/seller/products/<%= p.id %>/edit">Sửa</a></td></tr><% }) %>
+    </table>
+  </div>
+</section>
+<%- include('partials/footer') %>

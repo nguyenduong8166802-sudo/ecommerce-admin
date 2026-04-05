@@ -1,1 +1,2 @@
--- Schema is auto-created on app startup. This file is kept for reference.
+-- Auto-init handled by server.js in V3.
+-- Deploy and app will create/alter tables automatically.

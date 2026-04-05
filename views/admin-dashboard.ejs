@@ -1,1 +1,17 @@
-<%- include('partials/header', { title: 'Admin Dashboard' }) %><div class="container section"><div class="flex-between"><h1 class="page-title">Admin Dashboard</h1><div class="stack"><a class="btn secondary" href="/admin/sellers">Seller</a><a class="btn secondary" href="/admin/marketing">Marketing</a><a class="btn secondary" href="/admin/flash-sales">Flash Sale</a><a class="btn secondary" href="/admin/orders">Orders</a></div></div><div class="kpi"><div class="card"><div class="small">Người dùng</div><strong><%= stats.users %></strong></div><div class="card"><div class="small">Seller</div><strong><%= stats.sellers %></strong></div><div class="card"><div class="small">Sản phẩm</div><strong><%= stats.products %></strong></div><div class="card"><div class="small">Doanh thu</div><strong><%= currency(stats.revenue) %></strong></div></div><div class="card mt-24"><h3>Đơn mới nhất</h3><table class="table"><thead><tr><th>Mã đơn</th><th>Khách</th><th>Trạng thái</th><th>Tổng</th></tr></thead><tbody><% latestOrders.forEach(order => { %><tr><td>#<%= order.id %></td><td><%= order.full_name %></td><td><%= order.status %></td><td><%= currency(order.total_amount) %></td></tr><% }) %></tbody></table></div></div><%- include('partials/footer') %>
+<%- include('partials/header') %>
+<section class="section">
+  <h1>Admin Dashboard V3</h1>
+  <div class="stats-grid">
+    <div class="stat-card"><span>Sản phẩm</span><strong><%= stats.products %></strong></div>
+    <div class="stat-card"><span>Seller</span><strong><%= stats.sellers %></strong></div>
+    <div class="stat-card"><span>Đơn hàng</span><strong><%= stats.orders %></strong></div>
+    <div class="stat-card"><span>Doanh thu</span><strong><%= currency(stats.sales) %></strong></div>
+    <div class="stat-card"><span>Rút tiền chờ duyệt</span><strong><%= stats.pendingWithdrawals %></strong></div>
+  </div>
+  <div class="split top-gap">
+    <a class="card nav-card" href="/admin/sellers"><h3>Seller / Parent</h3><p>Chỉnh phí sàn, F1 và gán parent seller.</p></a>
+    <a class="card nav-card" href="/admin/affiliate"><h3>Cài đặt Affiliate</h3><p>F1, F2, phí sàn và rút tối thiểu.</p></a>
+    <a class="card nav-card" href="/admin/withdrawals"><h3>Rút tiền</h3><p>Duyệt hoặc từ chối yêu cầu rút tiền.</p></a>
+  </div>
+</section>
+<%- include('partials/footer') %>

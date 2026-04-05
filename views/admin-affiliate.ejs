@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+<section class="section narrow">
+  <h1>Cài đặt Affiliate & Ví</h1>
+  <form action="/admin/affiliate" method="POST" class="stack-form card">
+    <label>Phí sàn mặc định (%)<input type="number" step="0.01" name="platform_fee_rate" value="<%= settings.platform_fee_rate %>"></label>
+    <label>Hoa hồng F1 mặc định (%)<input type="number" step="0.01" name="level1_rate" value="<%= settings.level1_rate %>"></label>
+    <label>Hoa hồng F2 mặc định (%)<input type="number" step="0.01" name="level2_rate" value="<%= settings.level2_rate %>"></label>
+    <label>Rút tối thiểu (VND)<input type="number" step="1000" name="min_withdraw_amount" value="<%= settings.min_withdraw_amount %>"></label>
+    <button class="btn primary">Lưu cài đặt</button>
+  </form>
+</section>
+<%- include('partials/footer') %>
