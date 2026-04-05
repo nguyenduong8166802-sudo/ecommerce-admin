@@ -1,53 +1,70 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DUONG MART PRO</title><link rel="stylesheet" href="/public/css/style.css"></head><body>
-<div class="nav"><div class="nav-inner"><div><a class="brand" href="/">DUONG MART PRO</a></div>
-<div class="links">
-<a href="/">Trang chủ</a>
-<% if (!currentUser) { %><a href="/login">Đăng nhập</a><a href="/register">Đăng ký</a><% } %>
-<% if (currentUser && currentUser.role==='seller') { %><a href="/seller/products">Seller</a><% } %>
-<% if (currentUser && currentUser.role==='admin') { %><a href="/admin">Admin</a><a href="/admin/products">Quản lý sản phẩm</a><% } %>
-<% if (currentUser) { %><form action="/logout" method="post" style="display:inline"><button class="btn" style="padding:8px 12px">Đăng xuất</button></form><% } %>
-</div></div></div>
+<!DOCTYPE html><html lang="vi"><head><%- include('partials-head', { title: 'DUONG MART PRO' }) %></head><body>
+<div class="top-strip"><div class="container"><%= marketing?.top_banner || '' %></div></div>
+<%- include('partials-nav') %>
 <div class="container">
-
-<div class="hero">
-  <div class="card">
-    <div class="badge">BẢN ỔN ĐỊNH AUTO DB</div>
-    <h1>TUYỂN CỘNG TÁC VIÊN BÁN HÀNG</h1>
-    <p class="muted">Đăng ký seller để tự đăng sản phẩm, có link affiliate F1 và hệ thống quản lý đơn cơ bản.</p>
-    <div class="row">
-      <a class="btn" href="/register">Đăng ký seller</a>
-      <a class="btn secondary" href="/login">Đăng nhập</a>
+  <div class="hero">
+    <div class="card">
+      <div class="badge"><%= marketing?.hero_badge || '' %></div>
+      <h1><%= marketing?.hero_title || '' %></h1>
+      <p class="muted"><%= marketing?.hero_description || '' %></p>
+      <div class="cta-row">
+        <a class="btn" href="<%= marketing?.cta1_link || '/register?role=seller' %>"><%= marketing?.cta1_text || 'Đăng ký seller' %></a>
+        <a class="btn-outline" href="<%= marketing?.cta2_link || '/login' %>"><%= marketing?.cta2_text || 'Đăng nhập' %></a>
+      </div>
+      <div class="flash small muted" style="margin-top:16px;">Hàng thật, giá thật · Hỗ trợ seller mới · Có flash sale mỗi ngày</div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:28px;margin-top:0;">Điểm nổi bật</h3>
+      <ul class="highlights muted">
+        <li><%= marketing?.highlight_1 || '' %></li>
+        <li><%= marketing?.highlight_2 || '' %></li>
+        <li><%= marketing?.highlight_3 || '' %></li>
+        <li><%= marketing?.highlight_4 || '' %></li>
+      </ul>
     </div>
   </div>
-  <div class="card">
-    <h3>Điểm nổi bật</h3>
-    <ul class="muted">
-      <li>Admin CRUD sản phẩm full</li>
-      <li>Seller CRUD sản phẩm full</li>
-      <li>Auto tạo bảng DB khi chạy</li>
-      <li>Đăng ký buyer / seller</li>
-    </ul>
-  </div>
-</div>
 
-<h2>Sản phẩm nổi bật</h2>
-<div class="grid">
-<% products.forEach(p => { %>
-  <div class="card">
-    <img class="product-img" src="<%= p.image_url || 'https://via.placeholder.com/600x400?text=No+Image' %>" alt="">
-    <h3><%= p.name %></h3>
-    <div class="muted"><%= p.seller_name || 'Chưa có seller' %></div>
-    <p><%= p.description || '' %></p>
-    <strong><%= Number(p.price).toLocaleString('vi-VN') %>đ</strong>
-    <div class="row" style="margin-top:10px">
-      <% if (currentUser) { %>
-        <form method="post" action="/buy/<%= p.id %>"><button class="btn">Mua ngay</button></form>
-      <% } else { %>
-        <a class="btn" href="/login">Đăng nhập để mua</a>
-      <% } %>
+  <div class="banner-grid">
+    <% ['hero_left','hero_right','mid_home'].forEach(slot => { const b = banners?.[slot]; %>
+      <div class="card banner-box">
+        <% if (b && b.image_url) { %><img src="<%= b.image_url %>" alt="<%= b.title %>" /><% } else { %><div style="height:170px;background:#eef3ff;border-radius:14px;"></div><% } %>
+        <div style="margin-top:10px;font-weight:700;"><%= b?.title || slot %></div>
+        <div class="small muted"><%= b?.link_url || '/' %></div>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="flash">
+    <div class="toolbar"><h2 class="section-title">🔥 <%= flash?.title || 'Flash Sale' %></h2><div class="muted"><%= flash?.description || '' %></div></div>
+    <div class="grid-products">
+      <% flashProducts.forEach(p => { %>
+        <div class="product-card">
+          <img src="<%= p.image_url || 'https://via.placeholder.com/800x500?text=No+Image' %>" alt="<%= p.name %>" style="height:210px;object-fit:cover;width:100%;" />
+          <div class="content">
+            <div style="font-weight:700;min-height:48px;"><%= p.name %></div>
+            <div class="small muted"><%= p.seller_name || '' %></div>
+            <div style="margin:8px 0;"><span class="price"><%= formatMoney(p.sale_price || p.price) %></span> <% if (p.sale_price) { %><span class="old"><%= formatMoney(p.price) %></span><% } %></div>
+            <form method="post" action="/cart/add/<%= p.id %>"><button class="btn" type="submit">Thêm vào giỏ</button></form>
+          </div>
+        </div>
+      <% }) %>
     </div>
   </div>
-<% }) %>
+
+  <div class="toolbar"><h2 class="section-title">Sản phẩm nổi bật</h2><a href="/cart" class="btn-outline">Xem giỏ hàng</a></div>
+  <div class="grid-products">
+    <% featuredProducts.forEach(p => { %>
+      <div class="product-card">
+        <img src="<%= p.image_url || 'https://via.placeholder.com/800x500?text=No+Image' %>" alt="<%= p.name %>" style="height:210px;object-fit:cover;width:100%;" />
+        <div class="content">
+          <div style="font-weight:700;min-height:48px;"><%= p.name %></div>
+          <div class="small muted"><%= p.seller_name || '' %></div>
+          <div style="margin:8px 0;"><span class="price"><%= formatMoney(p.sale_price || p.price) %></span> <% if (p.sale_price) { %><span class="old"><%= formatMoney(p.price) %></span><% } %></div>
+          <form method="post" action="/cart/add/<%= p.id %>"><button class="btn" type="submit">Thêm vào giỏ</button></form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <div class="footer small">© DUONG MART PRO · Full Redeploy Admin CMS</div>
 </div>
-</div></body></html>
+</body></html>
