@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DUONG MART PRO</title><link rel="stylesheet" href="/public/css/style.css"></head><body>
+<div class="nav"><div class="nav-inner"><div><a class="brand" href="/">DUONG MART PRO</a></div>
+<div class="links">
+<a href="/">Trang chủ</a>
+<% if (!currentUser) { %><a href="/login">Đăng nhập</a><a href="/register">Đăng ký</a><% } %>
+<% if (currentUser && currentUser.role==='seller') { %><a href="/seller/products">Seller</a><% } %>
+<% if (currentUser && currentUser.role==='admin') { %><a href="/admin">Admin</a><a href="/admin/products">Quản lý sản phẩm</a><% } %>
+<% if (currentUser) { %><form action="/logout" method="post" style="display:inline"><button class="btn" style="padding:8px 12px">Đăng xuất</button></form><% } %>
+</div></div></div>
+<div class="container">
+
+<div class="card" style="max-width:500px;margin:0 auto">
+<h1>Đăng nhập</h1>
+<% if (error) { %><p style="color:#dc2626"><%= error %></p><% } %>
+<form method="post" action="/login">
+<label>Email</label><input name="email" type="email" required>
+<label>Mật khẩu</label><input name="password" type="password" required>
+<div style="margin-top:16px"><button class="btn">Đăng nhập</button></div>
+</form>
+<p class="muted" style="margin-top:14px">Admin: admin@duongmart.vn / admin123</p>
+</div>
+</div></body></html>

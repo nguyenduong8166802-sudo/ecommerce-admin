@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DUONG MART PRO</title><link rel="stylesheet" href="/public/css/style.css"></head><body>
+<div class="nav"><div class="nav-inner"><div><a class="brand" href="/">DUONG MART PRO</a></div>
+<div class="links">
+<a href="/">Trang chủ</a>
+<% if (!currentUser) { %><a href="/login">Đăng nhập</a><a href="/register">Đăng ký</a><% } %>
+<% if (currentUser && currentUser.role==='seller') { %><a href="/seller/products">Seller</a><% } %>
+<% if (currentUser && currentUser.role==='admin') { %><a href="/admin">Admin</a><a href="/admin/products">Quản lý sản phẩm</a><% } %>
+<% if (currentUser) { %><form action="/logout" method="post" style="display:inline"><button class="btn" style="padding:8px 12px">Đăng xuất</button></form><% } %>
+</div></div></div>
+<div class="container">
+
+<div class="row" style="justify-content:space-between">
+  <h1>Seller Dashboard</h1>
+  <a class="btn" href="/seller/products/new">+ Thêm sản phẩm</a>
+</div>
+<div class="stats" style="grid-template-columns:repeat(3,1fr)">
+  <div class="card"><h3>Ví hiện tại</h3><strong><%= Number(user.wallet_balance || 0).toLocaleString('vi-VN') %>đ</strong></div>
+  <div class="card"><h3>% affiliate F1</h3><strong><%= Number(user.referral_rate || 20) %>%</strong></div>
+  <div class="card"><h3>Link affiliate</h3><div class="muted"><%= publicBaseUrl %>/?ref=<%= user.referral_code || user.email %></div></div>
+</div>
+<table class="table">
+<thead><tr><th>ID</th><th>Ảnh</th><th>Tên</th><th>Giá</th><th>Tồn kho</th><th>Hiện thị</th><th>Thao tác</th></tr></thead>
+<tbody>
+<% products.forEach(p => { %>
+<tr>
+<td><%= p.id %></td>
+<td><img src="<%= p.image_url || 'https://via.placeholder.com/200x120?text=No+Image' %>" style="width:90px;height:60px;object-fit:cover;border-radius:8px"></td>
+<td><%= p.name %></td>
+<td><%= Number(p.price).toLocaleString('vi-VN') %>đ</td>
+<td><%= p.stock %></td>
+<td><%= p.is_active ? 'Bật' : 'Tắt' %></td>
+<td class="row">
+  <a class="btn secondary" href="/seller/products/<%= p.id %>/edit">Sửa</a>
+  <form method="post" action="/seller/products/<%= p.id %>/delete" onsubmit="return confirm('Xóa sản phẩm?')">
+    <button class="btn danger">Xóa</button>
+  </form>
+</td>
+</tr>
+<% }) %>
+</tbody>
+</table>
+</div></body></html>
