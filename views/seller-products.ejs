@@ -1,0 +1,42 @@
+
+<%- include('partials-header', { title: pageTitle, currentUser }) %>
+<h1>Seller quản lý sản phẩm</h1>
+<div class="kpis">
+  <div class="kpi"><div class="muted">Tổng sản phẩm</div><div style="font-size:32px;font-weight:700"><%= products.length %></div></div>
+  <div class="kpi"><div class="muted">Đang hiển thị</div><div style="font-size:32px;font-weight:700"><%= products.filter(p => p.is_active).length %></div></div>
+  <div class="kpi"><div class="muted">Ẩn / tạm khóa</div><div style="font-size:32px;font-weight:700"><%= products.filter(p => !p.is_active).length %></div></div>
+</div>
+<p><a class="btn orange" href="/seller/products/new">+ Thêm sản phẩm</a></p>
+<div class="card table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>ID</th><th>Sản phẩm</th><th>Seller</th><th>Giá</th><th>Tồn kho</th><th>Hiển thị</th><th>Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% products.forEach(product => { %>
+    <tr>
+      <td><%= product.id %></td>
+      <td>
+        <strong><%= product.name %></strong><br>
+        <span class="muted"><%= product.description || '' %></span>
+      </td>
+      <td><%= product.seller_name || 'Chưa gán' %></td>
+      <td><%= Number(product.price).toLocaleString('vi-VN') %>đ</td>
+      <td><%= product.stock %></td>
+      <td><%= product.is_active ? 'Bật' : 'Tắt' %></td>
+      <td>
+        <div class="actions">
+          <a class="btn secondary" href="/seller/products/<%= product.id %>/edit">Sửa</a>
+          <form method="POST" action="/seller/products/<%= product.id %>?_method=DELETE" onsubmit="return confirm('Xóa sản phẩm này?')">
+            <button class="btn danger">Xóa</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<%- include('partials-footer') %>

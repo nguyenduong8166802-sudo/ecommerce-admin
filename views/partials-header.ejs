@@ -1,23 +1,29 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DUONG MART PRO</title>
+  <title><%= title || 'DUONG MART PRO' %></title>
   <link rel="stylesheet" href="/public/css/style.css" />
 </head>
 <body>
-<div class="topbar"><%= typeof marketing !== 'undefined' ? marketing.topBar : 'DUONG MART PRO' %></div>
-<header class="header">
-  <a class="brand" href="/">DUONG MART PRO</a>
-  <nav>
+<header class="topbar">
+  <div class="brand">DUONG MART PRO</div>
+  <nav class="nav">
     <a href="/">Trang chủ</a>
-    <% if (currentUser && currentUser.role === 'seller') { %><a href="/seller">Seller</a><% } %>
-    <% if (currentUser && currentUser.role === 'admin') { %><a href="/admin">Admin</a><% } %>
-    <% if (!currentUser) { %><a href="/login">Đăng nhập</a><% } %>
-    <% if (currentUser) { %>
-      <form action="/logout" method="post" class="inline-form"><button type="submit" class="link-btn">Đăng xuất</button></form>
+    <% if (currentUser && currentUser.role === 'seller') { %>
+      <a href="/seller/products">Seller</a>
+    <% } %>
+    <% if (currentUser && currentUser.role === 'admin') { %>
+      <a href="/admin/products">Admin</a>
+      <a href="/seller/products">Seller view</a>
+    <% } %>
+    <% if (!currentUser) { %>
+      <a href="/login">Đăng nhập</a>
+    <% } else { %>
+      <form action="/logout" method="POST"><button class="btn-ghost">Đăng xuất</button></form>
     <% } %>
   </nav>
 </header>
-<main class="container">
+<div class="container">

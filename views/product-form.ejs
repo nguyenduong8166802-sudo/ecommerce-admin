@@ -1,15 +1,48 @@
-<%- include('partials-header', { marketing: { topBar: 'Thêm sản phẩm' } }) %>
-<div class="auth-box wide">
-  <h1>Thêm sản phẩm</h1>
-  <form method="post" action="/seller/products/new">
-    <label>Tên sản phẩm</label><input name="name" required />
-    <label>Giá bán</label><input name="price" type="number" required />
-    <label>Giá gốc</label><input name="oldPrice" type="number" />
-    <label>Ảnh URL</label><input name="image" required />
-    <label>Mô tả</label><textarea name="description"></textarea>
-    <label>Tồn kho</label><input name="stock" type="number" value="0" />
-    <label><input type="checkbox" name="flashSale" /> Flash Sale</label>
-    <button class="btn" type="submit">Lưu sản phẩm</button>
+
+<%- include('partials-header', { title: pageTitle, currentUser }) %>
+<div class="card">
+  <h1><%= pageTitle %></h1>
+  <form method="POST" action="<%= action %>">
+    <div class="form-grid">
+      <div>
+        <label>Tên sản phẩm</label>
+        <input name="name" value="<%= product.name || '' %>" required />
+      </div>
+      <div>
+        <label>Giá bán</label>
+        <input type="number" name="price" value="<%= product.price || 0 %>" min="0" step="1000" required />
+      </div>
+      <div>
+        <label>Tồn kho</label>
+        <input type="number" name="stock" value="<%= product.stock || 0 %>" min="0" required />
+      </div>
+      <div>
+        <label>Ảnh (URL)</label>
+        <input name="image_url" value="<%= product.image_url || '' %>" />
+      </div>
+    </div>
+
+    <% if (isAdminMode) { %>
+      <label>Gán seller sở hữu</label>
+      <select name="seller_id">
+        <option value="">-- Chưa gán --</option>
+        <% sellers.forEach(seller => { %>
+          <option value="<%= seller.id %>" <%= String(product.seller_id || '') === String(seller.id) ? 'selected' : '' %>>
+            <%= seller.full_name %> - <%= seller.email %>
+          </option>
+        <% }) %>
+      </select>
+    <% } %>
+
+    <label>Mô tả</label>
+    <textarea name="description" rows="5"><%= product.description || '' %></textarea>
+
+    <label><input type="checkbox" name="is_active" <%= product.is_active ? 'checked' : '' %> /> Hiển thị sản phẩm</label>
+
+    <div style="margin-top:18px" class="actions">
+      <button class="btn">Lưu sản phẩm</button>
+      <a class="btn secondary" href="<%= isAdminMode ? '/admin/products' : '/seller/products' %>">Quay lại</a>
+    </div>
   </form>
 </div>
 <%- include('partials-footer') %>

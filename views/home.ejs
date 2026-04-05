@@ -1,0 +1,35 @@
+
+<%- include('partials-header', { title: 'DUONG MART PRO', currentUser }) %>
+<section class="hero">
+  <div class="card">
+    <span class="badge">BẢN CHUẨN THƯƠNG MẠI</span>
+    <h1>Web bán hàng + seller + admin quản lý sản phẩm đầy đủ</h1>
+    <p class="muted">Admin có thể thêm, sửa, xóa sản phẩm thay seller. Seller có dashboard riêng để tự quản lý hàng hóa.</p>
+    <div style="margin-top:16px">
+      <a class="btn" href="/login">Đăng nhập quản trị</a>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Quyền lợi nổi bật</h3>
+    <ul>
+      <li>Admin quản lý toàn bộ sản phẩm</li>
+      <li>Seller tự thêm / sửa / xóa sản phẩm</li>
+      <li>Giao diện sạch, dễ deploy</li>
+      <li>Auto init DB khi chạy lần đầu</li>
+    </ul>
+  </div>
+</section>
+
+<h2>Sản phẩm nổi bật</h2>
+<div class="grid">
+  <% products.forEach(product => { %>
+    <div class="card product-card">
+      <img src="<%= product.image_url || 'https://via.placeholder.com/600x400?text=DUONG+MART' %>" alt="<%= product.name %>"/>
+      <h3><%= product.name %></h3>
+      <div class="price"><%= Number(product.price).toLocaleString('vi-VN') %>đ</div>
+      <p class="muted">Seller: <%= product.seller_name || 'Chưa gán' %></p>
+      <p><%= product.description || '' %></p>
+    </div>
+  <% }) %>
+</div>
+<%- include('partials-footer') %>

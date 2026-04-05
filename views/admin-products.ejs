@@ -1,0 +1,38 @@
+
+<%- include('partials-header', { title: 'Admin quản lý sản phẩm', currentUser }) %>
+<h1>Admin quản lý toàn bộ sản phẩm</h1>
+<p class="muted">Admin có thể thêm, sửa, xóa sản phẩm thay seller và gán sản phẩm cho seller bất kỳ.</p>
+<p><a class="btn" href="/admin/products/new">+ Admin thêm sản phẩm</a></p>
+<div class="card table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>ID</th><th>Sản phẩm</th><th>Seller sở hữu</th><th>Giá</th><th>Tồn kho</th><th>Hiển thị</th><th>Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% products.forEach(product => { %>
+    <tr>
+      <td><%= product.id %></td>
+      <td>
+        <strong><%= product.name %></strong><br>
+        <span class="muted"><%= product.description || '' %></span>
+      </td>
+      <td><%= product.seller_name || 'Chưa gán' %></td>
+      <td><%= Number(product.price).toLocaleString('vi-VN') %>đ</td>
+      <td><%= product.stock %></td>
+      <td><%= product.is_active ? 'Bật' : 'Tắt' %></td>
+      <td>
+        <div class="actions">
+          <a class="btn secondary" href="/admin/products/<%= product.id %>/edit">Sửa</a>
+          <form method="POST" action="/admin/products/<%= product.id %>?_method=DELETE" onsubmit="return confirm('Xóa sản phẩm này?')">
+            <button class="btn danger">Xóa</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<%- include('partials-footer') %>
