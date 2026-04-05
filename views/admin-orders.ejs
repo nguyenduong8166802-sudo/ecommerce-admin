@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý đơn hàng</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <%- include('partials-nav') %>
+  <div class="container">
+    <h1>Danh sách đơn hàng</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Mã đơn</th>
+          <th>Khách hàng</th>
+          <th>Sản phẩm</th>
+          <th>Người bán</th>
+          <th>SL</th>
+          <th>Doanh thu</th>
+          <th>Hoa hồng sàn</th>
+          <th>Người bán nhận</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach(order => { %>
+          <tr>
+            <td>#<%= order.id %></td>
+            <td><%= order.customerName %></td>
+            <td><%= order.product?.name || 'N/A' %></td>
+            <td><%= order.seller?.name || 'N/A' %></td>
+            <td><%= order.qty %></td>
+            <td><%= formatMoney(order.subtotal) %></td>
+            <td><%= formatMoney(order.commissionAmount) %> (<%= order.commissionPercent %>%)</td>
+            <td><%= formatMoney(order.sellerReceive) %></td>
+            <td><span class="badge"><%= order.status %></span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

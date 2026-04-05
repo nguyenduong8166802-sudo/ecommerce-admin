@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý sản phẩm</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <%- include('partials-nav') %>
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <h2>Thêm sản phẩm</h2>
+        <form action="/admin/products" method="POST">
+          <label>Tên sản phẩm</label>
+          <input name="name" required>
+          <label>Giá</label>
+          <input name="price" type="number" required>
+          <label>Tồn kho</label>
+          <input name="stock" type="number" required>
+          <label>Người bán</label>
+          <select name="sellerId" required>
+            <% sellers.forEach(seller => { %>
+              <option value="<%= seller.id %>"><%= seller.name %></option>
+            <% }) %>
+          </select>
+          <button class="btn" type="submit">Thêm sản phẩm</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Danh sách sản phẩm</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>Giá</th>
+              <th>Tồn kho</th>
+              <th>Seller ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach(p => { %>
+              <tr>
+                <td><%= p.id %></td>
+                <td><%= p.name %></td>
+                <td><%= formatMoney(p.price) %></td>
+                <td><%= p.stock %></td>
+                <td><%= p.sellerId %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

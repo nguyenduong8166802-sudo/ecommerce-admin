@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chính sách hoa hồng</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <%- include('partials-nav') %>
+  <div class="container">
+    <div class="card">
+      <h1>Chính sách hoa hồng người bán</h1>
+      <p><%= storeSettings.adminFeeNote %></p>
+      <p>Hoa hồng được tính trên giá trị đơn hàng hoàn tất. Công thức:</p>
+      <p><strong>Hoa hồng sàn = Giá trị đơn × % hoa hồng</strong></p>
+      <p><strong>Người bán nhận = Giá trị đơn - Hoa hồng sàn</strong></p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Người bán</th>
+          <th>Email</th>
+          <th>% hoa hồng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% sellers.forEach(seller => { %>
+          <tr>
+            <td><%= seller.name %></td>
+            <td><%= seller.email %></td>
+            <td><span class="badge"><%= seller.commissionPercent %>%</span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

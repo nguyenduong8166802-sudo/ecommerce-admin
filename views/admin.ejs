@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <%- include('partials-nav') %>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <div class="grid">
+      <div class="card"><div class="small">Tổng doanh thu hoàn tất</div><div class="kpi"><%= formatMoney(summary.grossRevenue) %></div></div>
+      <div class="card"><div class="small">Tổng hoa hồng sàn</div><div class="kpi"><%= formatMoney(summary.totalCommission) %></div></div>
+      <div class="card"><div class="small">Tổng tiền trả người bán</div><div class="kpi"><%= formatMoney(summary.totalSellerPayout) %></div></div>
+    </div>
+
+    <div class="grid" style="margin-top:18px;">
+      <div class="card">
+        <h3>Cập nhật cấu hình sàn</h3>
+        <form action="/admin/settings" method="POST">
+          <label>Tên website</label>
+          <input name="siteName" value="<%= storeSettings.siteName %>">
+          <label>Hoa hồng mặc định (%)</label>
+          <input name="defaultCommissionPercent" type="number" value="<%= storeSettings.defaultCommissionPercent %>">
+          <label>Mô tả chính sách</label>
+          <textarea name="adminFeeNote" rows="4"><%= storeSettings.adminFeeNote %></textarea>
+          <button class="btn" type="submit">Lưu cấu hình</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Ghi chú</h3>
+        <p>- Admin có thể thêm người bán.</p>
+        <p>- Mỗi người bán có % hoa hồng riêng.</p>
+        <p>- Đơn hàng completed sẽ tự tính tiền sàn và tiền người bán nhận.</p>
+        <p>- Đây là bản demo đơn giản, phù hợp làm nền tảng để phát triển tiếp.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
