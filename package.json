@@ -1,0 +1,19 @@
+{
+  "name": "marketplace-v1-postgres",
+  "version": "1.0.0",
+  "description": "Marketplace PRO V1 with PostgreSQL, roles, commission, marketing, flash sale",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "pg": "^8.13.1"
+  }
+}
