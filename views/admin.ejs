@@ -1,0 +1,14 @@
+<%- include('partials-header', { marketing: { topBar: 'Admin Dashboard' } }) %>
+<h1>Admin Dashboard</h1>
+<div class="stats">
+  <div class="stat"><strong>Seller</strong><span><%= sellerCount %></span></div>
+  <div class="stat"><strong>Buyer</strong><span><%= buyerCount %></span></div>
+  <div class="stat"><strong>Sản phẩm</strong><span><%= products.length %></span></div>
+  <div class="stat"><strong>Đơn hàng</strong><span><%= orders.length %></span></div>
+</div>
+<div class="cta-row">
+  <a class="btn" href="/admin/affiliate">Cấu hình affiliate</a>
+  <a class="btn" href="/admin/withdrawals">Duyệt rút tiền</a>
+  <a class="btn" href="/admin/marketing">Marketing</a>
+</div>
+<%- include('partials-footer') %>

@@ -1,0 +1,15 @@
+<%- include('partials-header', { marketing: { topBar: 'Thêm sản phẩm' } }) %>
+<div class="auth-box wide">
+  <h1>Thêm sản phẩm</h1>
+  <form method="post" action="/seller/products/new">
+    <label>Tên sản phẩm</label><input name="name" required />
+    <label>Giá bán</label><input name="price" type="number" required />
+    <label>Giá gốc</label><input name="oldPrice" type="number" />
+    <label>Ảnh URL</label><input name="image" required />
+    <label>Mô tả</label><textarea name="description"></textarea>
+    <label>Tồn kho</label><input name="stock" type="number" value="0" />
+    <label><input type="checkbox" name="flashSale" /> Flash Sale</label>
+    <button class="btn" type="submit">Lưu sản phẩm</button>
+  </form>
+</div>
+<%- include('partials-footer') %>

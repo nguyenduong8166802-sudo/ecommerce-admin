@@ -1,23 +1,18 @@
-<%- include('partials/header') %>
-<section class="section">
-  <h1>Duyệt yêu cầu rút tiền</h1>
-  <table class="table">
-    <tr><th>Seller</th><th>Số tiền</th><th>Ngân hàng</th><th>Trạng thái</th><th>Ngày</th><th></th></tr>
-    <% requests.forEach(r => { %>
-      <tr>
-        <td><strong><%= r.name %></strong><br><span class="muted"><%= r.email %></span></td>
-        <td><%= currency(r.amount) %></td>
-        <td><%= r.bank_name || '' %><br><%= r.bank_account_name || '' %> - <%= r.bank_account_number || '' %></td>
-        <td><%= r.status %></td>
-        <td><%= new Date(r.created_at).toLocaleString('vi-VN') %></td>
-        <td>
-          <% if (r.status === 'pending') { %>
-            <form action="/admin/withdrawals/<%= r.id %>/approve" method="POST" style="display:inline"><button class="btn primary">Duyệt</button></form>
-            <form action="/admin/withdrawals/<%= r.id %>/reject" method="POST" style="display:inline"><button class="btn">Từ chối</button></form>
-          <% } %>
-        </td>
-      </tr>
-    <% }) %>
-  </table>
-</section>
-<%- include('partials/footer') %>
+<%- include('partials-header', { marketing: { topBar: 'Duyệt rút tiền' } }) %>
+<h1>Yêu cầu rút tiền</h1>
+<table class="table">
+  <tr><th>ID</th><th>User</th><th>Số tiền</th><th>Trạng thái</th><th>Hành động</th></tr>
+  <% withdrawalRows.forEach(w => { %>
+    <tr>
+      <td><%= w.id %></td>
+      <td><%= w.user ? w.user.email : w.userId %></td>
+      <td><%= w.amount.toLocaleString('vi-VN') %>đ</td>
+      <td><%= w.status %></td>
+      <td>
+        <form method="post" action="/admin/withdrawals/<%= w.id %>/approved" class="inline-form"><button class="btn small-btn" type="submit">Duyệt</button></form>
+        <form method="post" action="/admin/withdrawals/<%= w.id %>/rejected" class="inline-form"><button class="btn btn-outline small-btn" type="submit">Từ chối</button></form>
+      </td>
+    </tr>
+  <% }) %>
+</table>
+<%- include('partials-footer') %>

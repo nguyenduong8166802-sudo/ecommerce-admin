@@ -1,56 +1,33 @@
-<%- include('partials/header') %>
+<%- include('partials-header', { marketing }) %>
 <section class="hero">
   <div>
-    <h1><%= marketing.hero_title %></h1>
-    <p><%= marketing.hero_subtitle %></p>
-    <div class="hero-actions">
-      <a class="btn primary" href="/products"><%= marketing.hero_cta_text %></a>
-      <a class="btn" href="/register">Đăng ký seller</a>
+    <h1><%= marketing.heroTitle %></h1>
+    <p><%= marketing.heroText %></p>
+    <div class="cta-row">
+      <a class="btn" href="/login">Mua ngay</a>
+      <a class="btn btn-outline" href="/login"><%= marketing.ctaText %></a>
     </div>
-    <% if (referredSeller) { %><p class="ref-box">Bạn đang xem qua link giới thiệu của: <strong><%= referredSeller.name %></strong></p><% } %>
   </div>
-  <div class="card benefit-box">
-    <h3>V3 Affiliate + Ví Seller</h3>
-    <ul class="benefit-list">
-      <li>✔ Affiliate nhiều tầng F1/F2</li>
-      <li>✔ Seller có ví tiền riêng</li>
-      <li>✔ Yêu cầu rút tiền trong dashboard</li>
-      <li>✔ Flash Sale + Marketing admin</li>
-      <li>✔ Theo dõi đơn ref và doanh thu</li>
+  <div class="panel">
+    <h3>Vì sao chọn DUONG MART PRO?</h3>
+    <ul>
+      <li>✔ Sản phẩm thật, giá rõ ràng</li>
+      <li>✔ Seller có ví và rút tiền</li>
+      <li>✔ Có flash sale và banner marketing</li>
+      <li>✔ Phù hợp bán hàng và tuyển CTV</li>
     </ul>
   </div>
 </section>
-
-<section class="section">
-  <div class="section-head"><h2>🔥 Sản phẩm nổi bật</h2><a href="/products">Xem tất cả</a></div>
-  <div class="product-grid">
-    <% products.forEach(product => { %>
-      <div class="product-card">
-        <a href="/products/<%= product.slug %>"><img src="<%= product.image_url || 'https://via.placeholder.com/400x300?text=No+Image' %>" alt="<%= product.name %>"></a>
-        <% if (product.flash) { %><span class="badge">-<%= Number(product.flash.sale_percent || 0).toFixed(0) %>%</span><% } %>
-        <div class="content">
-          <h3><a href="/products/<%= product.slug %>"><%= product.name %></a></h3>
-          <p class="muted"><%= product.category_name || 'Danh mục' %> • <%= product.seller_name || 'Seller' %></p>
-          <div class="price-row">
-            <strong><%= currency(product.flash ? product.flash.sale_price : product.price) %></strong>
-            <% if (product.flash) { %><span class="old-price"><%= currency(product.price) %></span><% } %>
-          </div>
-          <form action="/cart/add" method="POST"><input type="hidden" name="product_id" value="<%= product.id %>"><button class="btn primary">Mua ngay</button></form>
-        </div>
-      </div>
-    <% }) %>
-  </div>
+<h2>Flash Sale hôm nay</h2>
+<section class="grid">
+  <% products.forEach(p => { %>
+    <article class="card">
+      <img src="<%= p.image %>" alt="<%= p.name %>" />
+      <h3><%= p.name %></h3>
+      <p><%= p.description %></p>
+      <div class="price"><%= p.price.toLocaleString('vi-VN') %>đ <% if (p.oldPrice) { %><span><%= p.oldPrice.toLocaleString('vi-VN') %>đ</span><% } %></div>
+      <% if (p.flashSale) { %><div class="badge">FLASH SALE</div><% } %>
+    </article>
+  <% }) %>
 </section>
-
-<section class="section split">
-  <div class="card">
-    <h3>🚀 Tuyển seller & cộng tác viên</h3>
-    <p>Không cần vốn, có sẵn link ref, ví hoa hồng và dashboard theo dõi đơn.</p>
-    <a class="btn primary" href="/register">Đăng ký seller</a>
-  </div>
-  <div class="card">
-    <h3>💸 Cơ chế rút tiền</h3>
-    <p>Seller tích lũy doanh thu bán hàng + hoa hồng affiliate, sau đó gửi yêu cầu rút tiền để admin duyệt.</p>
-  </div>
-</section>
-<%- include('partials/footer') %>
+<%- include('partials-footer') %>

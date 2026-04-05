@@ -1,14 +1,22 @@
-# DUONG MART PRO V5 Stable
+# DUONG MART PRO V1 STABLE FIXED
 
-Bản ổn định, tự migrate DB cũ sang schema mới để deploy lại dễ hơn.
+## Chạy local
+```bash
+npm install
+npm start
+```
 
-## Điểm mới
-- Tự thêm các cột còn thiếu như `referral_rate`, `commission_rate`, `referral_code`
-- Affiliate F1 + F2
-- Ví seller + rút tiền
-- Tương thích database cũ tốt hơn
+## Tài khoản mẫu
+- Admin: admin@duongmart.vn / admin123
+- Seller: seller1@duongmart.vn / seller123
+- Buyer: buyer1@duongmart.vn / buyer123
 
-## Biến môi trường
-- DATABASE_URL
-- SESSION_SECRET
-- PUBLIC_BASE_URL
+## Route chính
+- /
+- /login
+- /seller
+- /seller/products/new
+- /admin
+- /admin/affiliate
+- /admin/withdrawals
+- /admin/marketing
