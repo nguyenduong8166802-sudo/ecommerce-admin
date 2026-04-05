@@ -1,1 +1,0 @@
--- Schema is auto-created on app startup. This file is kept for reference.
